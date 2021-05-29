@@ -5,7 +5,7 @@
   Free for personal and commercial use under the MIT license
   https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
 -->
-<html lang="zh" class="no-js">
+<html lang="en" class="no-js">
   <head>
     <meta charset="utf-8">
 
@@ -18,7 +18,7 @@
 
 
 <meta property="og:type" content="website">
-<meta property="og:locale" content="zh_TW">
+<meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Austin Blog">
 <meta property="og:title" content="Austin Blog">
 <meta property="og:url" content="https://fastyangmh.github.io/AustinBlog.github.io//">
@@ -107,9 +107,9 @@
     <nav class="skip-links">
   <h2 class="screen-reader-text">Skip links</h2>
   <ul>
-    <li><a href="#site-nav" class="screen-reader-shortcut">轉至主導航欄</a></li>
-    <li><a href="#main" class="screen-reader-shortcut">轉至内容</a></li>
-    <li><a href="#footer" class="screen-reader-shortcut">轉至頁脚</a></li>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
   </ul>
 </nav>
 
@@ -131,18 +131,22 @@
         <ul class="visible-links"><li class="masthead__menu-item">
               <a href="https://www.linkedin.com/in/yangmh/">About</a>
             </li><li class="masthead__menu-item">
-              <a href="/year-archive/">Posts</a>
+              <a href="/posts/">Posts</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Categories</a>
+            </li><li class="masthead__menu-item">
+              <a href="/tags/">Tags</a>
             </li></ul>
         
         <button class="search__toggle" type="button">
-          <span class="visually-hidden">切換搜索</span>
+          <span class="visually-hidden">Toggle search</span>
           <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
             <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
           </svg>
         </button>
         
         <button class="greedy-nav__toggle hidden" type="button">
-          <span class="visually-hidden">切換選單</span>
+          <span class="visually-hidden">Toggle menu</span>
           <div class="navicon"></div>
         </button>
         <ul class="hidden-links hidden"></ul>
@@ -180,7 +184,7 @@
   </div>
 
   <div class="author__urls-wrapper">
-    <button class="btn btn--inverse">追蹤</button>
+    <button class="btn btn--inverse">Follow</button>
     <ul class="author__urls social-icons">
       
         <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
@@ -274,12 +278,52 @@
     
     
 
-<h3 class="archive__subtitle">最新文章</h3>
+<h3 class="archive__subtitle">Recent posts</h3>
 
 
 
 
 <div class="entries-list">
+  
+    
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/%E9%97%9C%E6%96%BC%E9%80%99%E5%80%8B%E9%83%A8%E8%90%BD%E6%A0%BC/" rel="permalink">關於這個部落格
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">我叫Austin，畢業於國立雲林科技大學資訊工程系碩士。
+</p>
+  </article>
+</div>
+
   
     
 
@@ -308,7 +352,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          少於 1 分鐘閱讀
+          less than 1 minute read
         
       </span>
     
@@ -332,13 +376,15 @@
 
     
       <div class="search-content">
-        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
-    <label class="sr-only" for="search">
-      輸入您要搜索的關鍵詞...
+        <div class="search-content__inner-wrap"><form onsubmit="return googleCustomSearchExecute();" id="cse-search-box-form-id">
+    <label class="sr-only" for="cse-search-input-box-id">
+      Enter your search term...
     </label>
-    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="輸入您要搜索的關鍵詞..." />
+    <input type="search" id="cse-search-input-box-id" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
   </form>
-  <div id="results" class="results"></div></div>
+  <div id="results" class="results">
+    <gcse:searchresults-only></gcse:searchresults-only>
+  </div></div>
 
       </div>
     
@@ -351,7 +397,7 @@
         <div class="page__footer-follow">
   <ul class="social-icons">
     
-      <li><strong>追蹤:</strong></li>
+      <li><strong>Follow:</strong></li>
     
 
     
@@ -389,11 +435,36 @@
   <script src="/assets/js/main.min.js"></script>
 
 
+<script>
+  (function () {
+    var cx = '3f58fb58b4c5f36c9';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
 
+  function googleCustomSearchExecute() {
+    var input = document.getElementById('cse-search-input-box-id');
+    var element = google.search.cse.element.getElement('searchresults-only0');
+    if (input.value == '') {
+      element.clearAllResults();
+    } else {
+      element.execute(input.value);
+    }
+    return false;
+  }
 
-<script src="/assets/js/lunr/lunr.min.js"></script>
-<script src="/assets/js/lunr/lunr-store.js"></script>
-<script src="/assets/js/lunr/lunr-en.js"></script>
+  
+    $(document).ready(function () {
+      $('input#cse-search-input-box-id').on('keyup', function () {
+        googleCustomSearchExecute();
+      });
+    });
+  
+</script>
 
 
 
