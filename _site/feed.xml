@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://fastyangmh.github.io/AustinBlog.github.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://fastyangmh.github.io/AustinBlog.github.io//" rel="alternate" type="text/html" /><updated>2021-05-29T16:47:40+08:00</updated><id>https://fastyangmh.github.io/AustinBlog.github.io//feed.xml</id><title type="html">Austin Blog</title><subtitle>An engineer&apos;s website.</subtitle><author><name>Austin Yang</name></author><entry><title type="html">About this blog</title><link href="https://fastyangmh.github.io/AustinBlog.github.io//About_this_blog/" rel="alternate" type="text/html" title="About this blog" /><published>2021-05-29T00:00:00+08:00</published><updated>2021-05-29T00:00:00+08:00</updated><id>https://fastyangmh.github.io/AustinBlog.github.io//About_this_blog</id><content type="html" xml:base="https://fastyangmh.github.io/AustinBlog.github.io//About_this_blog/">&lt;p&gt;I am Austin, with a master’s degree in Computer Science and Information Engineer from the National Yunlin University of Science and Technology.&lt;/p&gt;
+
+&lt;p&gt;I am familiar with image classification and sound recognition, and I am good at PyTorch, PyTorch Lightning, and TensorFlow in the deep learning framework.&lt;/p&gt;
+
+&lt;p&gt;In this blog, I will introduce deep learning, leetcode problem, or some programming problems, and keep the notes as my programming diary.&lt;/p&gt;
+
+&lt;p&gt;If you have any questions, please feel free to contact me by email.&lt;/p&gt;
+
+&lt;p&gt;Thank you!&lt;/p&gt;</content><author><name>Austin Yang</name></author><summary type="html">I am Austin, with a master’s degree in Computer Science and Information Engineer from the National Yunlin University of Science and Technology.</summary></entry></feed>
