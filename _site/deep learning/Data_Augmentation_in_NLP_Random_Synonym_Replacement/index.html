@@ -1,0 +1,750 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.23.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Data Augmentation in NLP: Random Synonym Replacement - Austin Blog</title>
+<meta name="description" content="Abstract Hello everyone, my name is Austin.">
+
+
+  <meta name="author" content="Austin Yang">
+  
+  <meta property="article:author" content="Austin Yang">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Austin Blog">
+<meta property="og:title" content="Data Augmentation in NLP: Random Synonym Replacement">
+<meta property="og:url" content="https://fastyangmh.github.io/AustinBlog.github.io//deep%20learning/Data_Augmentation_in_NLP_Random_Synonym_Replacement/">
+
+
+  <meta property="og:description" content="Abstract Hello everyone, my name is Austin.">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2021-05-29T00:00:00+08:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://fastyangmh.github.io/AustinBlog.github.io//deep%20learning/Data_Augmentation_in_NLP_Random_Synonym_Replacement/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Austin Yang",
+      "url": "https://fastyangmh.github.io/AustinBlog.github.io//"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Austin Blog
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="https://www.linkedin.com/in/yangmh/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/posts/">Posts</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Categories</a>
+            </li><li class="masthead__menu-item">
+              <a href="/tags/">Tags</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Austin Yang</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>I am an engineer.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Taiwan</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="mailto:fastyangmh+blog@gmail.com" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/yangmh/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin-in" aria-hidden="true"></i><span class="label">LinkedIn</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/fastyangmh" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Data Augmentation in NLP: Random Synonym Replacement">
+    <meta itemprop="description" content="AbstractHello everyone, my name is Austin.">
+    <meta itemprop="datePublished" content="2021-05-29T00:00:00+08:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Data Augmentation in NLP: Random Synonym Replacement
+</h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#abstract">Abstract</a></li><li><a href="#step">Step</a></li><li><a href="#requirement">Requirement</a></li><li><a href="#code">Code</a><ul><li><a href="#import">import</a></li><li><a href="#class">class</a></li><li><a href="#call">call</a></li><li><a href="#result">result</a></li><li><a href="#full-version">full version</a></li></ul></li><li><a href="#conclusion">Conclusion</a></li><li><a href="#reference">Reference</a></li></ul>
+
+            </nav>
+          </aside>
+        
+        <h1 id="abstract">Abstract</h1>
+<p>Hello everyone, my name is Austin.</p>
+
+<p>Today I want to introduce one of the NLP data augmentation methods named random synonym replacement.</p>
+
+<p>In human conversation or writing, we use different words to represent the same thing.<br />
+<img src="/assets/images/deep_learning/2021-05-29-Data_Augmentation_in_NLP_Random_Synonym_Replacement_image1.png" alt="synonym example" /></p>
+
+<p>Therefore, this method is to use different words to express the same thing when simulating human daily conversation or writing.</p>
+
+<p>In this method, the key point is to use the synonym to replace the random select word to prevent the neural network overfitting.</p>
+
+<p>Ok! Let’s code it.</p>
+
+<h1 id="step">Step</h1>
+<p>There are 3 steps in this method.</p>
+
+<p>In the first step, we need to randomly select a word and set a threshold about the similarity to prevent the synonym from mismatching.</p>
+
+<p>In the second step, according to the word, we can find out the top 10 similar synonyms and use the threshold to remove the similar synonyms below the threshold.</p>
+
+<p>In the third step, randomly select the synonym from the previous result to replace the source word.</p>
+
+<h1 id="requirement">Requirement</h1>
+<p>Please install packages by the following list.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">upgrade</span> <span class="n">gensim</span> <span class="n">numpy</span>
+</code></pre></div></div>
+
+<h1 id="code">Code</h1>
+
+<h2 id="import">import</h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#import
+</span><span class="kn">from</span> <span class="nn">gensim.models.word2vec</span> <span class="kn">import</span> <span class="n">Word2Vec</span>
+<span class="kn">import</span> <span class="nn">gensim.downloader</span> <span class="k">as</span> <span class="n">api</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">string</span>
+</code></pre></div></div>
+
+<h2 id="class">class</h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># class
+</span>
+
+<span class="k">class</span> <span class="nc">RandomSynonymReplacement</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">corpus</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">similarity_threshold</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">Word2Vec</span><span class="p">(</span><span class="n">api</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">corpus</span><span class="p">))</span>  <span class="c1"># create the model of Word2Vec
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">similarity_threshold</span> <span class="o">=</span> <span class="n">similarity_threshold</span>    <span class="c1"># set the threshold
+</span>
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="c1"># Split the input text with spaces to get each word
+</span>        <span class="c1"># and check if the last character is a punctuation mark
+</span>        <span class="k">if</span> <span class="n">text</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="n">string</span><span class="p">.</span><span class="n">punctuation</span><span class="p">:</span>
+            <span class="n">words</span> <span class="o">=</span> <span class="n">text</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">].</span><span class="n">split</span><span class="p">(</span><span class="s">' '</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">words</span> <span class="o">=</span> <span class="n">text</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="s">' '</span><span class="p">)</span>
+
+        <span class="c1"># randomly select a word and replace it with a synonym
+</span>        <span class="k">for</span> <span class="n">word_index</span> <span class="ow">in</span> <span class="n">random</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">words</span><span class="p">)),</span> <span class="nb">len</span><span class="p">(</span><span class="n">words</span><span class="p">)):</span>
+            <span class="n">word</span> <span class="o">=</span> <span class="n">words</span><span class="p">[</span><span class="n">word_index</span><span class="p">]</span>
+            <span class="c1"># turn the selected word to lower case
+</span>            <span class="c1"># and check it whether exist in the vocabulary of the Word2Vec model
+</span>            <span class="k">if</span> <span class="n">word</span><span class="p">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">.</span><span class="n">model</span><span class="p">.</span><span class="n">wv</span><span class="p">.</span><span class="n">key_to_index</span><span class="p">:</span>
+                <span class="c1"># get similarity word by the model of Word2Vec
+</span>                <span class="c1"># and put it to numpy array
+</span>                <span class="n">similarity_word</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="p">.</span><span class="n">model</span><span class="p">.</span><span class="n">wv</span><span class="p">.</span><span class="n">most_similar</span><span class="p">(</span><span class="n">word</span><span class="p">.</span><span class="n">lower</span><span class="p">()))</span>
+                <span class="c1"># get the similarity from similarity_word
+</span>                <span class="n">similarity</span> <span class="o">=</span> <span class="n">similarity_word</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">].</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nb">float</span><span class="p">)</span>
+                <span class="c1"># get the index with similarity above the threshold
+</span>                <span class="n">similarity_index</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">where</span><span class="p">(</span>
+                    <span class="n">similarity</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="p">.</span><span class="n">similarity_threshold</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="c1"># check the length of similarity_index
+</span>                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">similarity_index</span><span class="p">):</span>
+                    <span class="c1"># randomly select the synonym
+</span>                    <span class="n">words</span><span class="p">[</span><span class="n">words</span><span class="p">.</span><span class="n">index</span><span class="p">(</span><span class="n">word</span><span class="p">)]</span> <span class="o">=</span> <span class="n">random</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span>
+                        <span class="nb">list</span><span class="p">(</span><span class="n">similarity_word</span><span class="p">[</span><span class="n">similarity_index</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="c1"># check if the last character is a punctuation mark
+</span>                    <span class="k">if</span> <span class="n">text</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="n">string</span><span class="p">.</span><span class="n">punctuation</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="s">' '</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">words</span><span class="p">)</span><span class="o">+</span><span class="n">text</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="s">' '</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">words</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">text</span>
+</code></pre></div></div>
+
+<h2 id="call">call</h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="c1"># create a class of RandomSynonymReplacement
+</span>    <span class="n">random_synonym_replacement</span> <span class="o">=</span> <span class="n">RandomSynonymReplacement</span><span class="p">(</span>
+        <span class="n">corpus</span><span class="o">=</span><span class="s">'text8'</span><span class="p">,</span> <span class="n">similarity_threshold</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="c1"># define a string
+</span>    <span class="n">text</span> <span class="o">=</span> <span class="s">'Hello, World!'</span>
+
+    <span class="c1"># check the result
+</span>    <span class="k">print</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">random_synonym_replacement</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">))</span>
+</code></pre></div></div>
+
+<h2 id="result">result</h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Hello</span><span class="p">,</span> <span class="n">World</span><span class="err">!</span>
+<span class="n">Hello</span><span class="p">,</span> <span class="n">europe</span><span class="err">!</span>
+</code></pre></div></div>
+
+<h2 id="full-version">full version</h2>
+<p>The full version of code is here: <a href="https://github.com/fastyangmh/toolkit/blob/main/Python/RandomSynonymReplacement.py">https://github.com/fastyangmh/toolkit/blob/main/Python/RandomSynonymReplacement.py</a></p>
+
+<h1 id="conclusion">Conclusion</h1>
+<p>If you have any questions, please feel free to contact me by email.</p>
+
+<h1 id="reference">Reference</h1>
+<p><a href="https://radimrehurek.com/gensim/intro.html">What is Gensim?</a><br />
+<a href="https://numpy.org/">NumPy</a><br />
+<a href="https://maelfabien.github.io/machinelearning/NLP_8/#when-should-we-use-data-augmentation">Data Augmentation in Natural Language Processing</a><br />
+<a href="https://marssu.coderbridge.io/2020/10/26/nlp-data-augmenatation-%E5%B8%B8%E8%A6%8B%E6%96%B9%E6%B3%95/">NLP Data Augmentation 常見方法</a></p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#data-augmentation" class="page__taxonomy-item" rel="tag">Data Augmentation</a><span class="sep">, </span>
+    
+      <a href="/tags/#nlp" class="page__taxonomy-item" rel="tag">NLP</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#deep-learning" class="page__taxonomy-item" rel="tag">Deep learning</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2021-05-29T00:00:00+08:00">May 29, 2021</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=Data+Augmentation+in+NLP%3A+Random+Synonym+Replacement%20https%3A%2F%2Ffastyangmh.github.io%2FAustinBlog.github.io%2F%2Fdeep%2520learning%2FData_Augmentation_in_NLP_Random_Synonym_Replacement%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ffastyangmh.github.io%2FAustinBlog.github.io%2F%2Fdeep%2520learning%2FData_Augmentation_in_NLP_Random_Synonym_Replacement%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Ffastyangmh.github.io%2FAustinBlog.github.io%2F%2Fdeep%2520learning%2FData_Augmentation_in_NLP_Random_Synonym_Replacement%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/About_this_blog/" class="pagination--pager" title="About this blog
+">Previous</a>
+    
+    
+      <a href="/%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/%E8%87%AA%E7%84%B6%E8%AA%9E%E8%A8%80%E8%99%95%E7%90%86%E7%9A%84%E6%95%B8%E6%93%9A%E5%A2%9E%E5%BC%B7_%E9%9A%A8%E6%A9%9F%E5%90%8C%E7%BE%A9%E8%A9%9E%E6%9B%BF%E6%8F%9B/" class="pagination--pager" title="自然語言處理的數據增強: 隨機同義詞替換
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You may also enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/%E9%97%9C%E6%96%BC%E9%80%99%E5%80%8B%E9%83%A8%E8%90%BD%E6%A0%BC/" rel="permalink">關於這個部落格
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">我叫Austin，畢業於國立雲林科技大學資訊工程系碩士。
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92/%E8%87%AA%E7%84%B6%E8%AA%9E%E8%A8%80%E8%99%95%E7%90%86%E7%9A%84%E6%95%B8%E6%93%9A%E5%A2%9E%E5%BC%B7_%E9%9A%A8%E6%A9%9F%E5%90%8C%E7%BE%A9%E8%A9%9E%E6%9B%BF%E6%8F%9B/" rel="permalink">自然語言處理的數據增強: 隨機同義詞替換
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">引言
+大家好，我叫Austin。
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/About_this_blog/" rel="permalink">About this blog
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">I am Austin, with a master’s degree in Computer Science and Information Engineer from the National Yunlin University of Science and Technology.
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form onsubmit="return googleCustomSearchExecute();" id="cse-search-box-form-id">
+    <label class="sr-only" for="cse-search-input-box-id">
+      Enter your search term...
+    </label>
+    <input type="search" id="cse-search-input-box-id" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results">
+    <gcse:searchresults-only></gcse:searchresults-only>
+  </div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+          <li><a href="https://github.com/fastyangmh" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/yangmh/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin-in" aria-hidden="true"></i> LinkedIn</a></li>
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2021 Austin Yang. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+<script>
+  (function () {
+    var cx = '3f58fb58b4c5f36c9';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+
+  function googleCustomSearchExecute() {
+    var input = document.getElementById('cse-search-input-box-id');
+    var element = google.search.cse.element.getElement('searchresults-only0');
+    if (input.value == '') {
+      element.clearAllResults();
+    } else {
+      element.execute(input.value);
+    }
+    return false;
+  }
+
+  
+    $(document).ready(function () {
+      $('input#cse-search-input-box-id').on('keyup', function () {
+        googleCustomSearchExecute();
+      });
+    });
+  
+</script>
+
+
+
+
+
+
+
+  </body>
+</html>

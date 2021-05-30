@@ -1,0 +1,115 @@
+I"�0<h1 id="引言">引言</h1>
+<p>大家好，我叫Austin。</p>
+
+<p>今天我要介紹在自然語言處理中一種名為隨機同義詞替換的數據增強方法。</p>
+
+<p>在人類對話或書寫時，我們常使用不同的單詞表達同一事物。<br />
+<img src="/assets/images/深度學習/2021-05-29-自然語言處理的數據增強_隨機同義詞替換_image1.png" alt="同義詞範例" /></p>
+
+<p>因此，這種方法是在模擬人類日常對話或寫作時，用不同的詞來表達同一事物。</p>
+
+<p>在這個方法中，關鍵是用同義詞代替隨機選擇的詞來防止神經網路過擬合。</p>
+
+<p>好！讓我們來寫程式吧。</p>
+
+<h1 id="步驟">步驟</h1>
+<p>此方法有 3 個步驟。</p>
+
+<p>第一步，我們需要隨機選擇一個單詞，並設置一個相似度的閾值，以防止取得不相似的同義詞。</p>
+
+<p>第二步，根據選定的單詞找出前10個相似的同義詞並利用閾值去除閾值以下的相似同義詞。</p>
+
+<p>第三步，從上一步的結果中隨機選擇同義詞替換選定的單詞。</p>
+
+<h1 id="要求">要求</h1>
+<p>請按照以下列表安裝套件。</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">upgrade</span> <span class="n">gensim</span> <span class="n">numpy</span>
+</code></pre></div></div>
+
+<h1 id="程式碼">程式碼</h1>
+
+<h2 id="import">import</h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#import
+</span><span class="kn">from</span> <span class="nn">gensim.models.word2vec</span> <span class="kn">import</span> <span class="n">Word2Vec</span>
+<span class="kn">import</span> <span class="nn">gensim.downloader</span> <span class="k">as</span> <span class="n">api</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">string</span>
+</code></pre></div></div>
+
+<h2 id="class">class</h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># class
+</span>
+
+<span class="k">class</span> <span class="nc">RandomSynonymReplacement</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">corpus</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">similarity_threshold</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">Word2Vec</span><span class="p">(</span><span class="n">api</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">corpus</span><span class="p">))</span>  <span class="c1"># create the model of Word2Vec
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">similarity_threshold</span> <span class="o">=</span> <span class="n">similarity_threshold</span>    <span class="c1"># set the threshold
+</span>
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="c1"># Split the input text with spaces to get each word
+</span>        <span class="c1"># and check if the last character is a punctuation mark
+</span>        <span class="k">if</span> <span class="n">text</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="n">string</span><span class="p">.</span><span class="n">punctuation</span><span class="p">:</span>
+            <span class="n">words</span> <span class="o">=</span> <span class="n">text</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">].</span><span class="n">split</span><span class="p">(</span><span class="s">' '</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">words</span> <span class="o">=</span> <span class="n">text</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="s">' '</span><span class="p">)</span>
+
+        <span class="c1"># randomly select a word and replace it with a synonym
+</span>        <span class="k">for</span> <span class="n">word_index</span> <span class="ow">in</span> <span class="n">random</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">words</span><span class="p">)),</span> <span class="nb">len</span><span class="p">(</span><span class="n">words</span><span class="p">)):</span>
+            <span class="n">word</span> <span class="o">=</span> <span class="n">words</span><span class="p">[</span><span class="n">word_index</span><span class="p">]</span>
+            <span class="c1"># turn the selected word to lower case
+</span>            <span class="c1"># and check it whether exist in the vocabulary of the Word2Vec model
+</span>            <span class="k">if</span> <span class="n">word</span><span class="p">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">.</span><span class="n">model</span><span class="p">.</span><span class="n">wv</span><span class="p">.</span><span class="n">key_to_index</span><span class="p">:</span>
+                <span class="c1"># get similarity word by the model of Word2Vec
+</span>                <span class="c1"># and put it to numpy array
+</span>                <span class="n">similarity_word</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="p">.</span><span class="n">model</span><span class="p">.</span><span class="n">wv</span><span class="p">.</span><span class="n">most_similar</span><span class="p">(</span><span class="n">word</span><span class="p">.</span><span class="n">lower</span><span class="p">()))</span>
+                <span class="c1"># get the similarity from similarity_word
+</span>                <span class="n">similarity</span> <span class="o">=</span> <span class="n">similarity_word</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">].</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nb">float</span><span class="p">)</span>
+                <span class="c1"># get the index with similarity above the threshold
+</span>                <span class="n">similarity_index</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">where</span><span class="p">(</span>
+                    <span class="n">similarity</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="p">.</span><span class="n">similarity_threshold</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="c1"># check the length of similarity_index
+</span>                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">similarity_index</span><span class="p">):</span>
+                    <span class="c1"># randomly select the synonym
+</span>                    <span class="n">words</span><span class="p">[</span><span class="n">words</span><span class="p">.</span><span class="n">index</span><span class="p">(</span><span class="n">word</span><span class="p">)]</span> <span class="o">=</span> <span class="n">random</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span>
+                        <span class="nb">list</span><span class="p">(</span><span class="n">similarity_word</span><span class="p">[</span><span class="n">similarity_index</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="c1"># check if the last character is a punctuation mark
+</span>                    <span class="k">if</span> <span class="n">text</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="n">string</span><span class="p">.</span><span class="n">punctuation</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="s">' '</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">words</span><span class="p">)</span><span class="o">+</span><span class="n">text</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="s">' '</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">words</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">text</span>
+</code></pre></div></div>
+
+<h2 id="call">call</h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="c1"># create a class of RandomSynonymReplacement
+</span>    <span class="n">random_synonym_replacement</span> <span class="o">=</span> <span class="n">RandomSynonymReplacement</span><span class="p">(</span>
+        <span class="n">corpus</span><span class="o">=</span><span class="s">'text8'</span><span class="p">,</span> <span class="n">similarity_threshold</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="c1"># define a string
+</span>    <span class="n">text</span> <span class="o">=</span> <span class="s">'Hello, World!'</span>
+
+    <span class="c1"># check the result
+</span>    <span class="k">print</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">random_synonym_replacement</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">))</span>
+</code></pre></div></div>
+
+<h2 id="result">result</h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Hello</span><span class="p">,</span> <span class="n">World</span><span class="err">!</span>
+<span class="n">Hello</span><span class="p">,</span> <span class="n">europe</span><span class="err">!</span>
+</code></pre></div></div>
+
+<h2 id="完整版本">完整版本</h2>
+<p>完整版的程式碼在這裡: <a href="https://github.com/fastyangmh/toolkit/blob/main/Python/RandomSynonymReplacement.py">https://github.com/fastyangmh/toolkit/blob/main/Python/RandomSynonymReplacement.py</a></p>
+
+<h1 id="結論">結論</h1>
+<p>如果您有任何問題，請隨時通過電子郵件與我聯繫。</p>
+
+<h1 id="參考連結">參考連結</h1>
+<p><a href="https://radimrehurek.com/gensim/intro.html">What is Gensim?</a><br />
+<a href="https://numpy.org/">NumPy</a><br />
+<a href="https://maelfabien.github.io/machinelearning/NLP_8/#when-should-we-use-data-augmentation">Data Augmentation in Natural Language Processing</a><br />
+<a href="https://marssu.coderbridge.io/2020/10/26/nlp-data-augmenatation-%E5%B8%B8%E8%A6%8B%E6%96%B9%E6%B3%95/">NLP Data Augmentation 常見方法</a></p>
+:ET
